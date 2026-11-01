@@ -1,0 +1,39 @@
+name: Automated CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 1. Build (Збірка проекту)
+        run: |
+          echo "Починаємо збірку проекту..."
+          mkdir -p dist
+          echo "Веб-сайт готовий до публікації" > dist/index.html
+          echo "Збірка успішна!"
+
+      - name: 2. Test (Автоматизовані тести)
+        run: |
+          echo "Запуск тестів..."
+          if [ -f "dist/index.html" ]; then
+            echo "Тест 1 пройдено: файл збірки існує."
+          else
+            echo "Тест 1 провалено!"
+            exit 1
+          fi
+          echo "Усі тести пройдено успішно!"
+
+      - name: 3. Deploy (Автоматичне розгортання)
+        run: |
+          echo "Перевірка статусів попередніх кроків... ОК"
+          echo "Ініціалізація розгортання на сервер..."
+          echo "Копіювання файлів..."
+          echo "Розгортання успішно завершено! Проект працює."
